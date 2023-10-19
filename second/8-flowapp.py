@@ -105,9 +105,9 @@ while True:
             for i, (next_point, first_point) in enumerate(zip(good_next, good_first)):
 
                 # 前フレームの座標獲得
-                first_x, first_y = first_point.ravel()
+                first_x, first_y = map(int, first_point.ravel())
                 # 後フレームの座標獲得
-                next_x, next_y = next_point.ravel()
+                next_x, next_y = map(int, next_point.ravel())
 
                 # x_dif,y_difはそれぞれ前フレームと比較した際のx, y方向の移動成分
                 x_dif = next_x - first_x

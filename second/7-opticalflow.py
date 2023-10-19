@@ -78,12 +78,13 @@ while True:
     for i, (next_point, first_point) in enumerate(zip(good_next, good_first)):
 
         # 前フレームの座標獲得
-        first_x, first_y = first_point.ravel()
+        first_x, first_y = map(int, first_point.ravel())
 
         # 後フレームの座標獲得
-        next_x, next_y = next_point.ravel()
+        next_x, next_y = map(int, next_point.ravel())
 
         # 前フレームと後フレームを繋ぐ線を描画
+        print(flow_mask.shape, (next_x, next_y), (first_x, first_y))
         flow_mask = cv2.line(
             flow_mask, (next_x, next_y), (first_x, first_y), color[i].tolist(), 2
         )
