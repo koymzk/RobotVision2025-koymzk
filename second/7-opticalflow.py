@@ -6,6 +6,7 @@ OpenCVを用いたオプティカルフロー
 # ライブラリのインポート
 import cv2
 import numpy as np
+import time
 
 # 今回はサンプル動画(.avi形式)を用いてオプティカルフローを観測
 cap = cv2.VideoCapture("./image_data/opticalflow.avi")
@@ -105,6 +106,9 @@ while True:
     # 次のフレーム、ポイントの準備
     gray_first = gray_next.copy()
     feature_first = good_next.reshape(-1, 1, 2)
+
+    # 動画が早すぎるので0.05秒停止
+    time.sleep(0.05)
 
 # 終了処理
 cv2.destroyAllWindows()

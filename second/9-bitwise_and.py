@@ -19,14 +19,19 @@ mask_inv = cv2.bitwise_not(mask)
 # bitwise_andを用いて前景領域を抽出
 shizuku_fg = cv2.bitwise_and(shizuku, shizuku, mask=mask)
 
+debug = False
+
 # 実行
 while True:
     # Webカメラのフレーム取得
     ret, frame = cap.read()
     cv2.imshow("camera", frame)
 
-    # region of interest (注目領域)
+    # 注目領域 (region of interest)
     roi = frame[0:H, 0:W]
+
+    if debug:
+        cv2.imshow("roi", roi)
 
     # 注目領域内にある，埋め込みたい画像の部分を黒塗りする
     frame_bg = cv2.bitwise_and(roi, roi, mask=mask_inv)
@@ -38,7 +43,14 @@ while True:
     # キーボードの入力の受付
     k = cv2.waitKey(1)
 
-    cv2.imshow("res", frame)
+    cv2.imshow("result", frame)
+
+    if debug:
+        cv2.imshow("mask_inv", mask_inv)
+        cv2.imshow("shizuku_fg", shizuku_fg)
+        cv2.imshow("roi", roi)
+        cv2.imshow("frame_bg", frame_bg)
+        cv2.imshow("dst", dst)
 
     # 終了
     if k == ord("q"):
