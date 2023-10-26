@@ -1,9 +1,11 @@
+# requirement: opencv-contrib-python 
+# if 'bgsegm' was not found, pip install -U opencv-contrib-python
+
 # ライブラリのインポート
+import time
+
 import cv2
 import numpy as np
-import time
-# requirement: opencv-contrib-python 
-# if 'bgsegm' was not found, pip install opencv-contrib-python
 
 # ノイズ処理用のカーネルを定義
 kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))

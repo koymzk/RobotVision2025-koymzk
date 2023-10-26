@@ -1,3 +1,6 @@
+# require skimage and sklearn
+# if 'skimage' or 'sklearn' was not found, pip install -U scikit-learn scikit-image
+
 import cv2
 import numpy as np
 from skimage.feature import hog

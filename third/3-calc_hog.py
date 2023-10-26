@@ -1,3 +1,6 @@
+# require skimage and sklearn
+# if 'skimage' or 'sklearn' was not found, pip install -U scikit-learn scikit-image
+
 import glob
 
 import cv2
@@ -16,6 +19,7 @@ for c in CLASSES:
 
     # 画像のパスの一覧(リスト)を取得
     image_paths = glob.glob(f"./data/{c}/*.jpg")
+    num_images = len(image_paths)
 
     for path in image_paths:
         # 画像の読み込み
@@ -33,6 +37,8 @@ for c in CLASSES:
         # リストに追加
         features.append(feat)
         labels.append(label)
+
+    print(f"{num_images} images found in {c}")
 
 # numpy配列に変換
 features = np.array(features, dtype=np.float32)

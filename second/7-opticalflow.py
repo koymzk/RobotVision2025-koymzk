@@ -4,9 +4,10 @@ OpenCVを用いたオプティカルフロー
 """
 
 # ライブラリのインポート
+import time
+
 import cv2
 import numpy as np
-import time
 
 # 今回はサンプル動画(.avi形式)を用いてオプティカルフローを観測
 cap = cv2.VideoCapture("./image_data/opticalflow.avi")
