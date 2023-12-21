@@ -34,7 +34,6 @@ while True:
 
     # 各顔について
     for x, y, w, h in faces:
-
         # 顔の外接短形を描画
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
         face = img[y : y + h, x : x + w]
@@ -42,7 +41,7 @@ while True:
 
         # 瞳検知・外接短形を描画
         eyes = eye_cascade.detectMultiScale(face_gray)
-        for (ex, ey, ew, eh) in eyes:
+        for ex, ey, ew, eh in eyes:
             cv2.rectangle(face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
 
     # ウィンドウに結果を表示

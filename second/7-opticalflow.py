@@ -53,7 +53,6 @@ flow_mask = np.zeros_like(first)
 ２枚目以降の処理
 """
 while True:
-
     # 動画のフレーム取得
     ret, frame = cap.read()
 
@@ -78,7 +77,6 @@ while True:
 
     # オプティカルフローを描画
     for i, (next_point, first_point) in enumerate(zip(good_next, good_first)):
-
         # 前フレームの座標獲得
         first_x, first_y = map(int, first_point.ravel())
 

@@ -62,7 +62,6 @@ count = 0
 
 # 実行
 while True:
-
     ret, frame = cap.read()
 
     # 10フレームに一回特徴点を更新
@@ -103,7 +102,6 @@ while True:
             flow_direction = "x"
             # 特徴点に関してfor文を回す(enumerate、zipを用いた少し特殊な形のfor文)
             for i, (next_point, first_point) in enumerate(zip(good_next, good_first)):
-
                 # 前フレームの座標獲得
                 first_x, first_y = map(int, first_point.ravel())
                 # 後フレームの座標獲得
@@ -166,7 +164,6 @@ while True:
             y_difs = 0
             # 特徴点に関してfor文を回す
             for i, (next_point, first_point) in enumerate(zip(good_next, good_first)):
-
                 # 前フレームの座標獲得
                 first_x, first_y = first_point.ravel()
                 # 後フレームの座標獲得

@@ -6,7 +6,6 @@ cap = cv2.VideoCapture(0)
 
 # 実行
 while True:
-
     # Webカメラのフレーム取得
     ret, frame = cap.read()
     cv2.imshow("camera", frame)
@@ -45,7 +44,6 @@ while True:
 
         # 各領域において...
         for i in top_idx:
-
             # ターミナル上に詳細表示
             print(
                 "[x0: {}, y0: {}, x幅: {}, y幅: {}, 面積: {}]".format(

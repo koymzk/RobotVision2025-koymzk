@@ -38,12 +38,18 @@ while True:
     src = frame.copy()
 
     # 今映っている人のクラスを表示
-    # putText(描画画像、 書き込む文字列、 書き込む座標、 フォント、 サイズ、 色、 太さ)
     if class_name is not None:
         display_str = f"class: {class_name}"
 
+    # putText(描画画像、 書き込む文字列、 書き込む座標、 フォント、 サイズ、 色、 太さ)
     cv2.putText(
-        src, display_str, (30, 30), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 1,
+        src,
+        display_str,
+        (30, 30),
+        cv2.FONT_HERSHEY_PLAIN,
+        2,
+        (0, 0, 0),
+        1,
     )
 
     cv2.imshow("camera", src)

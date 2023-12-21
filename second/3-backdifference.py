@@ -1,5 +1,5 @@
-# requirement: opencv-contrib-python 
-# if 'bgsegm' was not found, pip install -U opencv-contrib-python
+# requirement: opencv-contrib-python
+# if 'bgsegm' was not found, pip install --user opencv-contrib-python
 
 # ライブラリのインポート
 import time
@@ -17,7 +17,6 @@ cap = cv2.VideoCapture("./image_data/opticalflow.avi")
 fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
 
 while True:
-
     # 動画のフレームを取得
     ret, frame = cap.read()
 
