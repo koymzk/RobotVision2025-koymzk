@@ -2,18 +2,8 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture(0)
 
-# 実行
-while True:
-    # Webカメラのフレーム取得
-    ret, frame = cap.read()
-    cv2.imshow("camera", frame)
-
-    """
-    2-rgb2hue.pyと同じ方法で特定の色抽出
-    """
-    # 画像をRGBからHSVに変換
+def filtering(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # HSVによる上限、下限の設定　 ([Hue, Saturation, Value])
@@ -22,15 +12,13 @@ while True:
 
     # HSVからマスクを作成
     hsv_mask = cv2.inRange(hsv, hsvLower, hsvUpper)
-    cv2.imshow("hsv_mask", hsv_mask)
 
     # medianblurを用いてノイズ成分を除去
     blur_mask = cv2.medianBlur(hsv_mask, ksize=3)
-    cv2.imshow("mask_with_medianblur", blur_mask)
+    return hsv_mask, blur_mask
 
-    """
-    ここからラベリングを行う
-    """
+
+def labeling(blur_mask):
     # ラベリング結果書き出し用に二値画像をカラー変換 (枠や座標をカラー表示したい！)
     src = cv2.cvtColor(blur_mask, cv2.COLOR_GRAY2BGR)
 
@@ -88,14 +76,41 @@ while True:
                 (0, 255, 255),
                 2,
             )
+    return src
 
-    # 結果画像の表示
-    cv2.imshow("output", src)
 
-    # 終了オプション
-    k = cv2.waitKey(1)
-    if k == ord("q"):
-        break
+def main():
+    cap = cv2.VideoCapture(0)
 
-cap.release()
-cv2.destroyAllWindows()
+    # 実行
+    while True:
+        # Webカメラのフレーム取得
+        ret, frame = cap.read()
+        cv2.imshow("camera", frame)
+
+        """
+        2-rgb2hue.pyと同じ方法で特定の色抽出
+        """
+        hsv_mask, blur_mask = filtering(frame)
+        cv2.imshow("hsv_mask", hsv_mask)
+        cv2.imshow("mask_with_medianblur", blur_mask)
+
+        """
+        ここからラベリングを行う
+        """
+        src = labeling(blur_mask)
+
+        # 結果画像の表示
+        cv2.imshow("output", src)
+
+        # 終了オプション
+        k = cv2.waitKey(1)
+        if k == ord("q"):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()

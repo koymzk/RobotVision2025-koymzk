@@ -1,4 +1,4 @@
-# Robot Vision 2023
+# Robot Vision 2024
 
 ### 講義スライド
 - [1週目スライド](https://docs.google.com/presentation/d/1Y1mf8u1hK1CytaBMIGsYJwXy4iI51j-VntDGFAdA-Uk/edit?usp=sharing)
@@ -24,7 +24,7 @@ git clone https://github.com/aoki-media-lab/RobotVision2023.git
   以下のコマンドを実行してgitのブランチを切り替えることで，ソースコード内の `cv2.VideoCapture(0)` を `cv2.VideoCapture(0, cv2.CAP_DSHOW)` に置き換えることができる．元のブランチに戻す場合は， `git checkout main` を実行する．
 ```shell
 # RobotVisionのディレクトリに移動
-cd C:/Users/E/RobotVision2023
+cd C:/Users/E/RobotVision2024
 # ブランチの切り替え
 git checkout patched
 ```
