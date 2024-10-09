@@ -7,9 +7,9 @@
 
 ### 講義で使うソースコードのダウンロード
 コマンドプロンプト(Power Shell，ターミナル)上で以下のコマンドを実行し，ソースコードをダウンロードできる．
-Windowsの場合，ダウンロードしたファイルは `C:\Users\E(ユーザ名))\RobotVision2023` に保存される．
+Windowsの場合，ダウンロードしたファイルは `C:\Users\E(ユーザ名))\RobotVision2024` に保存される．
 ```shell
-git clone https://github.com/aoki-media-lab/RobotVision2023.git
+git clone https://github.com/aoki-media-lab/RobotVision2024.git
 ```
 
 ### faq
