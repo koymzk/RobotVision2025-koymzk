@@ -8,7 +8,7 @@ img_path = "./keio.png"
 def random_crop(img_path):
     # 画像の読み込み
     img = cv2.imread(img_path)
-    
+    pass
 
 
 if __name__ == "__main__":

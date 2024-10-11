@@ -9,8 +9,6 @@ import time
 import cv2
 import numpy as np
 
-# 今回はサンプル動画(.avi形式)を用いてオプティカルフローを観測
-cap = cv2.VideoCapture("./image_data/opticalflow.avi")
 
 """
 コーナー検出器のパラメータ設定
@@ -34,45 +32,21 @@ lk_params = dict(
 # ランダムに色を１００個生成（値0～255の範囲で100行3列のランダムなndarrayを生成）
 color = np.random.randint(0, 255, (100, 3))
 
-"""
-最初のフレームの処理
-Webカメラを用いる場合は、キーボード操作とかで最初のフレームを指定しても良い
-"""
 
-# 最初のフレーム読み込み
-first_flag, first = cap.read()
-
-# グレースケールに変換
-gray_first = cv2.cvtColor(first, cv2.COLOR_BGR2GRAY)
-feature_first = cv2.goodFeaturesToTrack(gray_first, mask=None, **feature_params)
-
-# フロー書き出し用の画像作成
-flow_mask = np.zeros_like(first)
-
-"""
-２枚目以降の処理
-"""
-while True:
-    # 動画のフレーム取得
-    ret, frame = cap.read()
-
-    # 動画のフレームが無くなったら強制終了
-    if not ret:
-        break
-
+def detect_flow(frame, gray, feature, flow_mask):
     # グレースケールに変換
     gray_next = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # オプティカルフロー検出
     # feature_next : gray_nextの特徴点の座標を保持
     feature_next, status, err = cv2.calcOpticalFlowPyrLK(
-        gray_first, gray_next, feature_first, None, **lk_params
+        gray, gray_next, feature, None, **lk_params
     )
 
     # 特徴点の移動を検出できた場合
     if feature_next is not None:
         # オプティカルフローを検出した特徴点を選別（0：検出せず、1：検出した）
-        good_first = feature_first[status == 1]
+        good_first = feature[status == 1]
         good_next = feature_next[status == 1]
 
     # オプティカルフローを描画
@@ -92,23 +66,62 @@ while True:
         # 現在の特徴点のところに丸（大きな点）を描画
         frame = cv2.circle(frame, (next_x, next_y), 5, color[i].tolist(), -1)
 
-    output = cv2.add(frame, flow_mask)
+    return frame, gray_next, good_next
 
-    # ウィンドウに結果を表示
-    cv2.imshow("window", output)
 
-    # 終了オプション
-    k = cv2.waitKey(1)
-    if k == ord("q"):
-        break
+def main():
+    # 今回はサンプル動画(.avi形式)を用いてオプティカルフローを観測
+    cap = cv2.VideoCapture("./image_data/opticalflow.avi")
 
-    # 次のフレーム、ポイントの準備
-    gray_first = gray_next.copy()
-    feature_first = good_next.reshape(-1, 1, 2)
+    """
+    最初のフレームの処理
+    Webカメラを用いる場合は、キーボード操作とかで最初のフレームを指定しても良い
+    """
 
-    # 動画が早すぎるので0.05秒停止
-    time.sleep(0.05)
+    # 最初のフレーム読み込み
+    first_flag, first = cap.read()
 
-# 終了処理
-cv2.destroyAllWindows()
-cap.release()
+    # グレースケールに変換
+    gray = cv2.cvtColor(first, cv2.COLOR_BGR2GRAY)
+    feature = cv2.goodFeaturesToTrack(gray, mask=None, **feature_params)
+
+    # フロー書き出し用の画像作成
+    flow_mask = np.zeros_like(first)
+
+    """
+    ２枚目以降の処理
+    """
+    while True:
+        # 動画のフレーム取得
+        ret, frame = cap.read()
+
+        # 動画のフレームが無くなったら強制終了
+        if not ret:
+            break
+
+        frame, gray_next, feature_next = detect_flow(frame, gray, feature, flow_mask)
+
+        output = cv2.add(frame, flow_mask)
+
+        # ウィンドウに結果を表示
+        cv2.imshow("window", output)
+
+        # 終了オプション
+        k = cv2.waitKey(1)
+        if k == ord("q"):
+            break
+
+        # 次のフレーム、ポイントの準備
+        gray = gray_next.copy()
+        feature = feature_next.reshape(-1, 1, 2)
+
+        # 動画が早すぎるので0.05秒停止
+        time.sleep(0.05)
+
+    # 終了処理
+    cv2.destroyAllWindows()
+    cap.release()
+
+
+if __name__ == "__main__":
+    main()

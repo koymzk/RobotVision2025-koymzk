@@ -4,55 +4,24 @@ import copy
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture(0)
 
-# アプリ用のスタジアム、ボール画像を読みこみ
-ret, frame = cap.read()
-ball_img = cv2.imread("./image_data/ball.png")
-stadium_img = cv2.imread("./image_data/stadium.png")
-
-# Webカメラの画面の大きさにスタジアムを合わせる
-stadium_img = cv2.resize(stadium_img, (frame.shape[1], frame.shape[0]))
-
-# ボールの高さ、幅の[半分](半分だから注意！！)
-# (注意!)今回ボールの大きさが H:198、W:200と両方偶数のためこれで良いが、奇数の場合は工夫が必要
-ball_h, ball_w = ball_img.shape[0] // 2, ball_img.shape[1] // 2
-
-# ボールの初期位置（中心座標)をスタジアムの中心に設定
-idx_h = stadium_img.shape[0] // 2
-idx_w = stadium_img.shape[1] // 2
-
-# はじめボールは中央に配置
-stadium = copy.deepcopy(stadium_img)
-stadium[
-    (idx_h - ball_h) : (idx_h + ball_h), (idx_w - ball_w) : (idx_w + ball_w)
-] = ball_img
-
-
-# 実行
-while True:
-    # Webカメラのフレーム取得
-    ret, frame = cap.read()
-    cv2.imshow("camera", frame)
-
-    """
-    4-labeling.pyと同じ方法でラベリング
-    ただし今回は最も大きい領域(4-labeling.pyでは上位２つ)のみ利用
-    """
-    # 画像をRGBからHSVに変換
+def filtering(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # HSVによる上限、下限の設定　 ([Hue, Saturation, Value])
-    hsvLower = np.array([0, 30, 30])  # 下限
-    hsvUpper = np.array([30, 150, 150])  # 上限
+    hsvLower = np.array([0, 60, 60])  # 下限
+    hsvUpper = np.array([40, 255, 255])  # 上限
 
     # HSVからマスクを作成
     hsv_mask = cv2.inRange(hsv, hsvLower, hsvUpper)
 
     # medianblurを用いてノイズ成分を除去
     blur_mask = cv2.medianBlur(hsv_mask, ksize=3)
+    return hsv_mask, blur_mask
 
-    # ラベリング結果書き出し用に二値画像をカラー変換
+
+def labeling(blur_mask, ball_img, stadium_img):
+    # ラベリング結果書き出し用に二値画像をカラー変換 (枠や座標をカラー表示したい！)
     src = cv2.cvtColor(blur_mask, cv2.COLOR_GRAY2BGR)
 
     # ラベリング処理
@@ -100,7 +69,6 @@ while True:
             (0, 255, 255),
             2,
         )
-
         """
         ここから少し工夫をしてアプリ化
         ボールをスタジアムに配置する
@@ -110,6 +78,7 @@ while True:
         idx_w = int(centroids[idx, 0])
 
         # ボールがスタジアムからはみ出す時、位置を調整
+        ball_h, ball_w = ball_img.shape[0] // 2, ball_img.shape[1] // 2
         if idx_h < ball_h:
             idx_h = ball_h
         elif idx_h >= stadium_img.shape[0] - ball_h:
@@ -125,14 +94,63 @@ while True:
             (idx_h - ball_h) : (idx_h + ball_h), (idx_w - ball_w) : (idx_w + ball_w)
         ] = ball_img
 
-    # 結果画像の表示
-    cv2.imshow("labeling", src)
-    cv2.imshow("output", stadium)
+    return src, stadium
 
-    # 終了オプション
-    k = cv2.waitKey(1)
-    if k == ord("q"):
-        break
 
-cap.release()
-cv2.destroyAllWindows()
+
+def main():
+    cap = cv2.VideoCapture(0)
+
+    # アプリ用のスタジアム、ボール画像を読みこみ
+    ret, frame = cap.read()
+    ball_img = cv2.imread("./image_data/ball.png")
+    stadium_img = cv2.imread("./image_data/stadium.png")
+
+    # Webカメラの画面の大きさにスタジアムを合わせる
+    stadium_img = cv2.resize(stadium_img, (frame.shape[1], frame.shape[0]))
+
+    # ボールの高さ、幅の[半分](半分だから注意！！)
+    # (注意!)今回ボールの大きさが H:198、W:200と両方偶数のためこれで良いが、奇数の場合は工夫が必要
+    ball_h, ball_w = ball_img.shape[0] // 2, ball_img.shape[1] // 2
+
+    # ボールの初期位置（中心座標)をスタジアムの中心に設定
+    idx_h = stadium_img.shape[0] // 2
+    idx_w = stadium_img.shape[1] // 2
+
+    # はじめボールは中央に配置
+    stadium = copy.deepcopy(stadium_img)
+    stadium[
+        (idx_h - ball_h) : (idx_h + ball_h), (idx_w - ball_w) : (idx_w + ball_w)
+    ] = ball_img
+
+
+    # 実行
+    while True:
+        # Webカメラのフレーム取得
+        ret, frame = cap.read()
+        cv2.imshow("camera", frame)
+
+        """
+        4-labeling.pyと同じ方法でラベリング
+        ただし今回は最も大きい領域(4-labeling.pyでは上位２つ)のみ利用
+        """
+        _, blur_mask =filtering(frame)
+
+        # ラベリング結果書き出し用に二値画像をカラー変換
+        src, stadium = labeling(blur_mask, ball_img, stadium_img)
+
+        # 結果画像の表示
+        cv2.imshow("labeling", src)
+        cv2.imshow("output", stadium)
+
+        # 終了オプション
+        k = cv2.waitKey(1)
+        if k == ord("q"):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()
