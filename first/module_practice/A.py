@@ -1,5 +1,5 @@
 def a():
-    print("Hello B.py")
+    print("Hello A.py")
 
 if __name__ == "__main__":
     a()
