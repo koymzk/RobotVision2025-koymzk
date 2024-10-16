@@ -10,7 +10,7 @@ def main():
     ball_img = cv2.imread("./image_data/ball.png")
     stadium_img = cv2.imread("./image_data/stadium.png")
 
-    # スタジアムの大きさを適当に変更 (二つ目の引数は(w,h))
+    # スタジアムの大きさを適当に変更 (二つ目の引数は(w,h)
     stadium_img = cv2.resize(stadium_img, (1200, 700))
 
     # / ではなく // で切り捨て
@@ -44,7 +44,30 @@ def main():
         k = cv2.waitKey(1)
         if k == ord("q"):
             break
-        # -----------以下記述-----------
+        if k == ord("w"):
+            idx_h -= x
+        elif k == ord("s"):
+            idx_h += x
+        elif k == ord("a"):
+            idx_w -= x
+        elif k == ord("d"):
+            idx_w += x
+
+        # はみ出す場合は強制的に元の位置に戻す
+        # ボールが覆う区間は[idx_h - ball_h, idx_h + ball_h)
+        idx_h = min(max(idx_h, ball_h), stadium_copy.shape[0] - ball_h)
+        idx_w = min(max(idx_w, ball_w), stadium_copy.shape[1] - ball_w)
+        """
+        ↑のコードは以下の条件分岐での対処と同じ
+        if idx_h - ball_h < 0:
+            idx_h = ball_h
+        if idx_h + ball_h >= stadium_copy.shape[0]:
+            idx_h = stadium_copy.shape[0] - ball_h
+        if idx_w - ball_w < 0:
+            idx_w = ball_w
+        if idx_w + ball_w >= stadium_copy.shape[1]:
+            idx_w = stadium_copy.shape[1] - ball_w
+        """
 
 
     cv2.destroyAllWindows()
