@@ -1,15 +1,15 @@
 # Robot Vision 2024
 
 ### 講義スライド
-- [1週目スライド](https://docs.google.com/presentation/d/1AfAiaGk795Hm00gkPXxy3q8Ni981LG6l-xlcHjS7xh4)
-- [2週目スライド](https://docs.google.com/presentation/d/1a6_cslZBi98AhQkJ3eSeCXzd8MpM0V4cgf1DLCTzCd8)
-- [3週目スライド](https://docs.google.com/presentation/d/171qcFUZy9dqc9xKax4U-bfU7esdx_rPrs1EJk1LXjNA)
+- [1週目スライド](https://docs.google.com/presentation/d/1-Zw19Y9iLVYCHvqtnW_pBvNrDQqrbM56r5IDKBn0emk)
+- [2週目スライド](https://docs.google.com/presentation/d/1okUJlHS20aA6FV20UrcmoxZhR3_TlhB5kZBvu4IUAWY)
+- [3週目スライド](https://docs.google.com/presentation/d/1huO0PF8ZFZvI7QEFyuOZy2qb2OiWAkvxKGn-4ecBAL4)
 
 ### 講義で使うソースコードのダウンロード
 コマンドプロンプト(Power Shell，ターミナル)上で以下のコマンドを実行し，ソースコードをダウンロードできる．
 Windowsの場合，ダウンロードしたファイルは `C:\Users\E(ユーザ名))\RobotVision2024` に保存される．
 ```shell
-git clone https://github.com/aoki-media-lab/RobotVision2024.git
+git clone https://github.com/aoki-media-lab/RobotVision2025.git
 ```
 
 ### faq
@@ -24,7 +24,7 @@ git clone https://github.com/aoki-media-lab/RobotVision2024.git
   以下のコマンドを実行してgitのブランチを切り替えることで，ソースコード内の `cv2.VideoCapture(0)` を `cv2.VideoCapture(0, cv2.CAP_DSHOW)` に置き換えることができる．元のブランチに戻す場合は， `git checkout main` を実行する．
 ```shell
 # RobotVisionのディレクトリに移動
-cd C:/Users/E/RobotVision2024
+cd C:/Users/E/RobotVision2025
 # ブランチの切り替え
 git checkout patched
 ```
