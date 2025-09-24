@@ -1,4 +1,4 @@
-# Robot Vision 2024
+# Robot Vision 2025
 
 ### 講義スライド
 - [1週目スライド](https://docs.google.com/presentation/d/1-Zw19Y9iLVYCHvqtnW_pBvNrDQqrbM56r5IDKBn0emk)
@@ -7,7 +7,7 @@
 
 ### 講義で使うソースコードのダウンロード
 コマンドプロンプト(Power Shell，ターミナル)上で以下のコマンドを実行し，ソースコードをダウンロードできる．
-Windowsの場合，ダウンロードしたファイルは `C:\Users\E(ユーザ名))\RobotVision2024` に保存される．
+Windowsの場合，ダウンロードしたファイルは `C:\Users\E(ユーザ名))\RobotVision2025` に保存される．
 ```shell
 git clone https://github.com/aoki-media-lab/RobotVision2025.git
 ```
