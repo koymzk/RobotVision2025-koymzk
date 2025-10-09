@@ -11,7 +11,7 @@ def random_crop(img_path):
     h, w, _ = img.shape
     x = np.random.randint(0, w - 128 + 1)
     y = np.random.randint(0, h - 128 + 1)
-    output = img[y:y+128:np.random.choice([-1,1]), x:x+128:np.random.choice([-1,1])]
+    output = img[y:y+128, x:x+128][::np.random.choice([1, -1]), ::np.random.choice([1, -1])]
     return output
 
 
