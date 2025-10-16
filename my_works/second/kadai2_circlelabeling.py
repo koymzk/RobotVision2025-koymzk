@@ -4,7 +4,7 @@ import numpy as np
 
 
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     # 色の範囲
     # HSVRange["blue"]["lower"]で値を取り出せる
