@@ -7,8 +7,8 @@ import numpy as np
 
 def main():
     # アプリ用のスタジアム、ボール画像を読みこみ
-    ball_img = cv2.imread("./image_data/ball.png")
-    stadium_img = cv2.imread("./image_data/stadium.png")
+    ball_img = cv2.imread("my_works/second/image_data/ball.png")
+    stadium_img = cv2.imread("my_works/second/image_data/stadium.png")
 
     # スタジアムの大きさを適当に変更 (二つ目の引数は(w,h))
     stadium_img = cv2.resize(stadium_img, (1200, 700))
@@ -44,6 +44,18 @@ def main():
         k = cv2.waitKey(1)
         if k == ord("q"):
             break
+        if k == ord("a"): 
+            if idx_w - x - ball_w >= 0:  
+                idx_w -= x
+        if k == ord("d"):  
+            if idx_w + x + ball_w <= stadium_img.shape[1]:
+                idx_w += x
+        if k == ord("w"):  
+            if idx_h - x - ball_h >= 0:  
+                idx_h -= x
+        if k == ord("s"):  
+            if idx_h + x + ball_h <= stadium_img.shape[0]:
+                idx_h += x
         # -----------以下記述-----------
 
 
