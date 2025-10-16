@@ -23,7 +23,7 @@ def main():
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
 
     # 今回はサンプル動画(.avi形式)を用いて背景差分を抽出
-    cap = cv2.VideoCapture("./image_data/opticalflow.avi")
+    cap = cv2.VideoCapture("my_works/second/image_data/opticalflow.avi")
 
     # 背景差分のクラスを定義
     fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
