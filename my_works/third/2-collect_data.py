@@ -6,7 +6,7 @@ import glob
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # スクショしたかどうかを保存する変数 (まだ撮っていないのでFalse)
 screenshot = False
@@ -14,7 +14,7 @@ screenshot = False
 photo = None
 
 # フォルダにある画像の枚数を取得
-data = glob.glob("./data/*.jpg")
+data = glob.glob("my_works/third/data/*.jpg")
 n_data = len(data)
 
 # ノイズ除去のためのカーネルの定義
@@ -37,14 +37,14 @@ while True:
         cv2.imshow("flow", fgmask)
 
         if k == ord("c"):
-            cv2.imwrite("./mask_results/initial_mask.jpg", fgmask)
+            cv2.imwrite("my_works/third/data/mask_results/initial_mask.jpg", fgmask)
 
             # 白色領域のノイズを除去する
             fgmask = cv2.erode(fgmask, kernel)  # 収縮処理
-            cv2.imwrite("./mask_results/eroded_mask.jpg", fgmask)
+            cv2.imwrite("my_works/third/data/mask_results/eroded_mask.jpg", fgmask)
 
             fgmask = cv2.dilate(fgmask, kernel)  # 膨張処理
-            cv2.imwrite("./mask_results/denoised_mask.jpg", fgmask)
+            cv2.imwrite("my_works/third/data/mask_results/denoised_mask.jpg", fgmask)
 
             # マスクのかかっていない部分のみ切り取る
             # np.where(条件式) で，条件を満たすインデックスを取り出すことができる
@@ -57,7 +57,7 @@ while True:
 
             # 不要な部分は無視して画像の保存
             cv2.imwrite(
-                f"./data/{n_data}.jpg", frame[top : bottom + 1, left : right + 1]
+                f"my_works/third/data/{n_data}.jpg", frame[top : bottom + 1, left : right + 1]
             )
 
             n_data += 1

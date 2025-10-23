@@ -10,7 +10,7 @@ screenshot = False
 photo = None
 
 # フォルダにある画像の枚数を取得
-data = glob.glob("./data/*.jpg")
+data = glob.glob("my_works/third/data/*.jpg")
 n_data = len(data)
 
 # 実行
@@ -27,7 +27,7 @@ while True:
         break
     # 写真を保存
     elif k == ord("s"):
-        cv2.imwrite(f"./data/{n_data}.jpg", frame)
+        cv2.imwrite(f"my_works/third/data/{n_data}.jpg", frame)
         n_data += 1
 
 cap.release()
