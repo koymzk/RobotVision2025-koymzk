@@ -80,7 +80,7 @@ def labeling(blur_mask):
 
 
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture()
 
     # 実行
     while True:
