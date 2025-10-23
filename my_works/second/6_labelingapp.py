@@ -103,8 +103,8 @@ def main():
 
     # アプリ用のスタジアム、ボール画像を読みこみ
     ret, frame = cap.read()
-    ball_img = cv2.imread("./image_data/ball.png")
-    stadium_img = cv2.imread("./image_data/stadium.png")
+    ball_img = cv2.imread("my_works/second/image_data/ball.png")
+    stadium_img = cv2.imread("my_works/second/image_data/stadium.png")
 
     # Webカメラの画面の大きさにスタジアムを合わせる
     stadium_img = cv2.resize(stadium_img, (frame.shape[1], frame.shape[0]))
